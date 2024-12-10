@@ -1,0 +1,53 @@
+---
+import SEO from '@/modules/seo/SEO.astro'
+import { tw } from '@/lib/tw'
+
+const { currentLocale } = Astro
+
+interface Props
+{
+  title: string
+  description?: string
+  favicon?: string
+  keywords?: string[]
+  class?: string
+	url?: URL
+}
+
+const
+{
+  title,
+  description = '',
+  favicon = '/favicon.svg',
+  keywords = [],
+  class: className = '',
+	url = new URL(Astro.url.pathname, Astro.site),
+} = Astro.props
+---
+
+<!doctype html>
+<html lang={currentLocale}>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href={favicon} />
+		<meta name="generator" content={Astro.generator} />
+		{keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
+		<link rel="sitemap" href="/sitemap-index.xml" />
+		<meta name="description" content={description} />
+		<meta name="darkreader-lock">
+		<link rel="canonical" href={url.href}>
+    <SEO title={title} description={description} />
+		<slot name="head" />
+		<title>{title}</title>
+	</head>
+	<body class="relative bg-body text-text">
+		<h1 class="sr-only">{title}</h1>
+		<main class={tw(
+			"overflow-hidden",
+			className,
+		)}>
+			<slot />
+		</main>
+	</body>
+</html>
