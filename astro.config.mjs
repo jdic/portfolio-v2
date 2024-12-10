@@ -10,6 +10,7 @@ import sitemap from '@astrojs/sitemap'
 export default defineConfig(
 {
   site: 'https://jmota.netlify.app/',
+  prefetch: true,
   integrations: [tailwind(), react(), mdx(), sitemap()],
   i18n: 
   {
