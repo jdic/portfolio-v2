@@ -1,28 +1,33 @@
 ---
+import type { MarkdownLayoutProps } from 'astro'
 import SEO from '@/modules/seo/SEO.astro'
 import { tw } from '@/lib/tw'
 
-const { currentLocale } = Astro
-
-interface Props
+interface PageProps
 {
   title: string
   description?: string
   favicon?: string
   keywords?: string[]
   class?: string
-	url?: URL
 }
+
+interface Props extends MarkdownLayoutProps<PageProps>, PageProps
+{}
+
+const frontmatter = Astro.props.frontmatter
+const { currentLocale } = Astro
 
 const
 {
-  title,
-  description = '',
-  favicon = '/favicon.svg',
-  keywords = [],
-  class: className = '',
-	url = new URL(Astro.url.pathname, Astro.site),
+	title = frontmatter.title,
+  description = frontmatter.description ?? '',
+  favicon = frontmatter.favicon ?? '/favicon.svg',
+  keywords = frontmatter.keywords ?? [],
+  class: className = frontmatter.class ?? '',
 } = Astro.props
+
+const url = new URL(Astro.url.pathname, Astro.site)
 ---
 
 <!doctype html>
