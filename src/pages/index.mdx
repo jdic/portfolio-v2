@@ -3,3 +3,18 @@ layout: '@/modules/layout/Page.astro'
 
 title: JMota | Portfolio
 ---
+import Bold from '@/modules/common/components/Bold.astro'
+import Formatter from '@/helpers/Formatter.astro'
+
+<Formatter
+	data="I'm ~~a~~ [Fullstack Developer,](https://github.com/jdic) __future__ **Mechatronics Engineer** and **Web Designer.**"
+	custom={
+  [
+		{
+			match: "**",
+			key: 'strong',
+			component: Bold,
+		},
+	]}
+	link italic underline
+/>

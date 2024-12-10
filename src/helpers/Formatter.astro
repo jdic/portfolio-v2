@@ -1,0 +1,134 @@
+---
+import Underline from '@/modules/common/components/Underline.astro'
+import Italic from '@/modules/common/components/Italic.astro'
+import Link from '@/modules/common/components/Link.astro'
+import Bold from '@/modules/common/components/Bold.astro'
+
+type Rule =
+{
+  match: RegExp | string
+  key: string
+  component: any
+}
+
+interface Props
+{
+  data: string
+
+  strong?: boolean
+  italic?: boolean
+  underline?: boolean
+  link?: boolean
+
+  components?:
+  {
+    [key: string]: (_props: any) => any
+  }
+
+  custom?: Rule[]
+}
+
+const
+{
+  data,
+  components =
+  {
+    bold: Bold,
+    italic: Italic,
+    underline: Underline,
+    link: Link,
+  },
+  custom = [],
+  ...allowed
+} = Astro.props
+
+const allowedKeys = Object.keys(allowed).filter((key) => allowed[key as keyof Props])
+
+const markdownMatchs =
+{
+  bold: '**',
+  italic: '__',
+  underline: '~~',
+  link: /\[(.*?)\]\((.*?)\)/g,
+}
+
+const toRegExp = (match: string | RegExp): RegExp =>
+{
+  if (typeof match === 'string')
+  {
+    const escaped = match.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+    return new RegExp(`${escaped}(.*?)${escaped}`, 'g')
+  }
+
+  return match
+}
+
+const predefinedRules: Rule[] = Object.keys(markdownMatchs).map((key) =>
+{
+  if (!allowedKeys.includes(key))
+  {
+    return
+  }
+
+  const match = toRegExp(markdownMatchs[key as keyof typeof markdownMatchs])
+
+  const ruleObject: Rule =
+  {
+    match,
+    key,
+    component: components[key],
+  }
+
+  return ruleObject
+})
+.filter((rule): rule is Rule => !!rule)
+
+const rules: Rule[] =
+[
+  ...predefinedRules,
+  ...custom.map((rule: Rule) =>
+  ({
+    ...rule,
+    match: toRegExp(rule.match),
+  })),
+]
+---
+
+<>
+  {rules.reduce((result, { match, key, component: Wrapper }) =>
+  {
+    if (!Wrapper)
+    {
+      return result
+    }
+
+    return result.flatMap((part) =>
+    {
+      if (typeof part !== 'string')
+      {
+        return part
+      }
+
+      return part.split(match).map((subPart, subIndex, allParts) =>
+      {
+        if (key === 'link' && subIndex % 2 === 1)
+        {
+          const text = subPart
+          const url = allParts[subIndex + 1]
+
+          allParts.splice(subIndex + 1, 1)
+
+          return <Wrapper href={url}>{text}</Wrapper>
+        }
+
+        if (subIndex % 2 === 1)
+        {
+          return <Wrapper>{subPart}</Wrapper>
+        }
+
+        return subPart
+      })
+    })
+  }, [data])}
+</>
