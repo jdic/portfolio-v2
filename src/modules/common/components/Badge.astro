@@ -1,0 +1,38 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+import { Icon } from 'astro-icon/components'
+import { tw } from '@/lib/tw'
+
+interface Props extends HTMLAttributes<'span'>
+{
+  icon?: string
+  label: string
+}
+
+const
+{
+  icon,
+  label,
+  class: className,
+  ...props
+} = Astro.props
+---
+
+<span
+  class={tw(
+    "flex py-1 px-2 text-xs items-center gap-x-1 rounded-full w-max border-[1px]",
+    className,
+  )}
+  {...props}
+>
+  {icon && (
+    <Icon
+      name={icon}
+      class="flex-shrink-0"
+    />
+  )}
+  <slot name="icon" />
+  {label && (
+    <span class="flex-grow">{label}</span>
+  )}
+</span>
