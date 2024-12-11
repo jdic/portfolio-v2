@@ -37,12 +37,11 @@ const url = new URL(Astro.url.pathname, Astro.site)
 		<slot name="head" />
 		<title>{title}</title>
 	</head>
-	<body class="relative bg-body text-text">
+	<body class="bg-light-background dark:bg-dark-background">
 		<h1 class="sr-only">{title}</h1>
 		<main class={tw(
 			"overflow-hidden",
 			"text-light-text dark:text-dark-text",
-			"bg-light-background dark:bg-dark-background",
 			className,
 		)}>
 			<slot />
