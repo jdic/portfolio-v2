@@ -1,7 +1,8 @@
 ---
+import type { HTMLAttributes } from 'astro/types'
 import { tw } from '@/lib/tw'
 
-interface Props extends astroHTML.JSX.AnchorHTMLAttributes
+interface Props extends HTMLAttributes<'a'>
 {
   prefetch?: 'hover' | 'tap' | 'viewport' | 'load'
   cursor?: 'pointer' | 'default' | 'auto' | string

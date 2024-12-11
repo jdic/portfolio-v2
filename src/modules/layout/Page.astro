@@ -1,30 +1,21 @@
 ---
-import type { MarkdownLayoutProps } from 'astro'
+import type { Page } from '@/types/global'
 import SEO from '@/modules/seo/SEO.astro'
 import { tw } from '@/lib/tw'
 
-interface PageProps
-{
-  title: string
-  description?: string
-  favicon?: string
-  keywords?: string[]
-  class?: string
-}
-
-interface Props extends MarkdownLayoutProps<PageProps>, PageProps
+interface Props extends Page
 {}
 
-const frontmatter = Astro.props.frontmatter
+const { frontmatter } = (Astro.props as Props & { frontmatter: Props })
 const { currentLocale } = Astro
 
 const
 {
-	title = frontmatter.title,
-  description = frontmatter.description ?? '',
-  favicon = frontmatter.favicon ?? '/favicon.svg',
-  keywords = frontmatter.keywords ?? [],
-  class: className = frontmatter.class ?? '',
+	title = frontmatter?.title,
+  description = frontmatter?.description ?? '',
+  favicon = frontmatter?.favicon ?? '/favicon.svg',
+  keywords = frontmatter?.keywords ?? [],
+  class: className = frontmatter?.class ?? '',
 } = Astro.props
 
 const url = new URL(Astro.url.pathname, Astro.site)
@@ -50,6 +41,8 @@ const url = new URL(Astro.url.pathname, Astro.site)
 		<h1 class="sr-only">{title}</h1>
 		<main class={tw(
 			"overflow-hidden",
+			"text-light-text dark:text-dark-text",
+			"bg-light-background dark:bg-dark-background",
 			className,
 		)}>
 			<slot />
