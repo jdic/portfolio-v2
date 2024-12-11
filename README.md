@@ -1,24 +1,51 @@
 ## 🚀 Project Structure
 
 ```text
-/
+.
 ├── astro.config.mjs
 ├── package.json
 ├── pnpm-lock.yaml
 ├── public
-│   └── favicon.svg
+│   ├── favicon.svg
+│   └── logo.webp
 ├── README.md
 ├── src
+│   ├── helpers
+│   │   └── Formatter.astro
+│   ├── layouts
+│   │   └── index.astro
 │   ├── lib
 │   │   └── tw.ts
 │   ├── modules
+│   │   ├── common
+│   │   │   └── components
+│   │   │       ├── Accent.astro
+│   │   │       ├── Badge.astro
+│   │   │       ├── Bold.astro
+│   │   │       ├── Italic.astro
+│   │   │       ├── Link.astro
+│   │   │       └── Underline.astro
+│   │   ├── hero
+│   │   │   ├── components
+│   │   │   │   ├── hero-cta.astro
+│   │   │   │   ├── hero-ctas.astro
+│   │   │   │   ├── hero-heads.astro
+│   │   │   │   └── hero-logo.astro
+│   │   │   └── Hero.astro
 │   │   ├── layout
-│   │   │   └── Page.astro
+│   │   │   ├── Page.astro
+│   │   │   └── Section.astro
 │   │   └── seo
 │   │       └── SEO.astro
-│   └── pages
-│       ├── index.astro
-│       └── robots.txt.ts
+│   ├── pages
+│   │   ├── es
+│   │   │   └── index.mdx
+│   │   ├── fr
+│   │   │   └── index.mdx
+│   │   ├── index.mdx
+│   │   └── robots.txt.ts
+│   └── types
+│       └── global.ts
 ├── tailwind.config.mjs
 └── tsconfig.json
 ```

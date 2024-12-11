@@ -1,0 +1,32 @@
+---
+import HeroHeads from './components/hero-heads.astro'
+import Section from '@/modules/layout/Section.astro'
+import type { Hero as Props } from '@/types/global'
+import HeroLogo from './components/hero-logo.astro'
+import HeroCtas from './components/hero-ctas.astro'
+
+const
+{
+  CTA = [],
+  subtitle = '',
+  title,
+  image
+} = Astro.props
+---
+
+<Section
+  id="top"
+  class="flex flex-col items-center justify-center w-screen overflow-x-hidden h-[95vh] md:h-screen"
+>
+  <HeroLogo
+    src={image.src}
+    alt={image.alt}
+  />
+  <HeroHeads
+    title={title}
+    subtitle={subtitle}
+  />
+  <HeroCtas
+    CTA={CTA}
+  />
+</Section>

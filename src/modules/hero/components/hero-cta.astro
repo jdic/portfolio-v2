@@ -1,0 +1,24 @@
+---
+import Badge from '@/modules/common/components/Badge.astro'
+import Link from '@/modules/common/components/Link.astro'
+import type { CTA } from '@/types/global'
+
+interface Props extends CTA
+{}
+
+const
+{
+  href,
+  label,
+  icon,
+} = Astro.props
+---
+
+<Link
+  href={href}
+>
+  <Badge
+    icon={icon}
+    label={label}
+  />
+</Link>

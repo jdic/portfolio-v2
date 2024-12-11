@@ -1,0 +1,20 @@
+---
+import type { GlobalData } from '@/types/global'
+import type { MarkdownLayoutProps } from 'astro'
+import Page from '@/modules/layout/Page.astro'
+import Hero from '@/modules/hero/Hero.astro'
+
+type Props = MarkdownLayoutProps<GlobalData>
+
+const { frontmatter } = Astro.props
+---
+
+<Page
+  title={frontmatter.title}
+  description={frontmatter.description}
+  favicon={frontmatter.favicon}
+  keywords={frontmatter.keywords}
+  class={frontmatter.class}
+>
+  <Hero {...frontmatter.hero} />
+</Page>

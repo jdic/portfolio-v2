@@ -1,0 +1,39 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+import { Image } from 'astro:assets'
+import { tw } from '@/lib/tw'
+
+interface Props extends HTMLAttributes<'image'>
+{
+  size?: number
+  src: string
+  alt: string
+}
+
+const
+{
+  size = 300,
+  class: className,
+  src,
+  alt,
+  ...props
+} = Astro.props
+---
+
+<div
+  class={tw(
+    "mx-auto animate-spin",
+    className,
+  )}
+  style={{ width: `${size}px`, height: `${size}px` }}
+  {...props}
+>
+  <Image
+    class="shadow-drop-shadow rounded-full transition-transform ease-in-out hover:scale-105"
+    src={src}
+    alt={alt}
+    width={Number(size)}
+    height={size}
+    loading="eager"
+  />
+</div>

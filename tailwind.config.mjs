@@ -43,7 +43,11 @@ export default
 					primary: '#3a31d8',
 					secondary: '#f5cc00',
 					accent: '#0525b3',
-				}
+				},
+			},
+			animation:
+			{
+				spin: 'spin 30s linear infinite',
 			},
 		},
 	},

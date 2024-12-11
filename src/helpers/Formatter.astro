@@ -3,13 +3,7 @@ import Underline from '@/modules/common/components/Underline.astro'
 import Italic from '@/modules/common/components/Italic.astro'
 import Link from '@/modules/common/components/Link.astro'
 import Bold from '@/modules/common/components/Bold.astro'
-
-type Rule =
-{
-  match: RegExp | string
-  key: string
-  component: any
-}
+import type { FormatterRule } from '@/types/global'
 
 interface Props
 {
@@ -25,7 +19,7 @@ interface Props
     [key: string]: (_props: any) => any
   }
 
-  custom?: Rule[]
+  custom?: FormatterRule[]
 }
 
 const
@@ -64,7 +58,7 @@ const toRegExp = (match: string | RegExp): RegExp =>
   return match
 }
 
-const predefinedRules: Rule[] = Object.keys(markdownMatchs).map((key) =>
+const predefinedRules: FormatterRule[] = Object.keys(markdownMatchs).map((key) =>
 {
   if (!allowedKeys.includes(key))
   {
@@ -73,7 +67,7 @@ const predefinedRules: Rule[] = Object.keys(markdownMatchs).map((key) =>
 
   const match = toRegExp(markdownMatchs[key as keyof typeof markdownMatchs])
 
-  const ruleObject: Rule =
+  const ruleObject: FormatterRule =
   {
     match,
     key,
@@ -82,12 +76,12 @@ const predefinedRules: Rule[] = Object.keys(markdownMatchs).map((key) =>
 
   return ruleObject
 })
-.filter((rule): rule is Rule => !!rule)
+.filter((rule): rule is FormatterRule => !!rule)
 
-const rules: Rule[] =
+const rules: FormatterRule[] =
 [
   ...predefinedRules,
-  ...custom.map((rule: Rule) =>
+  ...custom.map((rule: FormatterRule) =>
   ({
     ...rule,
     match: toRegExp(rule.match),
